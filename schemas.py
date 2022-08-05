@@ -14,4 +14,4 @@ class Book(BaseModel):
     date: date
     summary: str
     genres: List[Genre] # Список из жанров, что разрешены моделью Genre.
-
+    pages: int

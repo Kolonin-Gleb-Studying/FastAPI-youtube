@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Path
 
 # Импорт моделей pydantic для валидации данных
 from schemas import Book
@@ -24,8 +24,14 @@ def get_user_item(pk: int, item: str):
 def create_book(item: Book):
     return item
 @app.get('/book')
-def get_book(q: str = Query(..., min_length=2, max_length=5, description="Описание параметра")): # Обязательный параметр с ограничениями
+def get_book(q: str = Query(..., min_length=2, max_length=5, description="Описание параметра")): # Обязательный ПАРАМЕТР с ограничениями
     return q
+
+@app.get('/book/{pk}')
+def get_single_book(pk: int = Path(..., gt=1, le=20), pages: int = Query(None, gt=10, le=500)): # Ограничения на ПУТЬ и ПАРАМЕТР
+    return {"pk": pk, "pages": pages}
+
+
 
 '''
 Запуск сервера:
