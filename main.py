@@ -25,7 +25,7 @@ def create_book(item: Book, author: Author, quantity: int = Body(...)): # С п�
     return {"item": item, "author": author, "quantity": quantity}
 
 @app.post('/author')
-def get_book(author: Author = Body(..., embed=True)): # Включение ключа в Body запроса
+def create_author(author: Author = Body(..., embed=True)): # Включение ключа в Body запроса
     return author
 
 @app.get('/book')
