@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query, Path, Body
 
 # Импорт моделей pydantic для валидации данных
-from schemas import Book, Author
+from schemas import Book, BookOut, Author
 
 app = FastAPI()
 
@@ -20,9 +20,21 @@ def get_user_item(pk: int, item: str):
     return {"key": pk, "item": item}
 
 ''' По одному адресу могут приниматься запросы разных типов '''
-@app.post('/book') # POST - Для публикации данных на сервер
+# POST - Для публикации данных на сервер
+
+
+# response_model - чем сервер будет отвечать
+# exclude_unset=True - исключение необязательных валидируемых данных
+# response_model_include={"pages", "date"} - поля, что следует включить в ответ
+@app.post('/book', response_model=BookOut)
+def create_book(item: Book):
+    return BookOut(**item.dict(), id=1) # Ответ сервера - модель BookOut с id=1
+
+'''
+@app.post('/book')
 def create_book(item: Book, author: Author, quantity: int = Body(...)): # С помощью Body параметр запроса добавляется в Body запроса
     return {"item": item, "author": author, "quantity": quantity}
+'''
 
 @app.post('/author')
 def create_author(author: Author = Body(..., embed=True)): # Включение ключа в Body запроса

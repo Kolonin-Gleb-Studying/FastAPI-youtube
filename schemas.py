@@ -27,6 +27,11 @@ class Book(BaseModel):
     duration: str
     date: date
     summary: str
-    genres: List[Genre] # Список из жанров, что разрешены моделью Genre.
+    genres: List[Genre] = [] # Список из жанров, что разрешены моделью Genre.
     pages: int
+
+# Модель, используемая для ответа от сервера
+class BookOut(Book):
+    id: int
+
 
